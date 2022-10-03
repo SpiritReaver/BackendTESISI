@@ -1,0 +1,33 @@
+.UwU{
+  text-align: center;
+}
+
+.optionCounterButton {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #0071c2;
+  color: #0071c2;
+  cursor: pointer;
+  background-color: white;
+
+}
+
+.optionCounter {
+  margin-top: 10
+  px;
+  align-items: center;
+  gap: 10px;
+  color: black;
+  margin-left: 15px;
+  margin-right: 15px;
+
+}
+.optionItem {
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+
+

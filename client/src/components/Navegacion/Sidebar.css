@@ -1,0 +1,31 @@
+.sidebar {
+    width: 14rem;
+    height: calc(100vh - 10px);
+    border-right: 1px solid #c4ccde;
+    background-color: rgba(51, 48, 48, 0.986);
+    color: #c4ccde;
+    
+  }
+  .sidebarv2 {
+    
+    height: calc(100vh - 10px);
+    border-right: 1px solid #c4ccde;
+    background-color: rgba(51, 48, 48, 0.986);
+    color: #c4ccde;
+    
+  }
+  
+ 
+  .active{
+      background-color: #c4ccde;
+      padding: 10px;
+    
+  }
+  .flex {
+    display: flex;
+  }
+  
+  .content{
+    width: 100%;
+  }
+  

@@ -20,9 +20,8 @@ export const verifyToken = (req, res, next) => {
 export const verifyUser = (req, res, next) => {
   const id = Number(req.params.id);
   const reqid = req.user.user.id;
-  console.log(typeof id, typeof reqid);
   if (id !== reqid) {
-    return next(createError(401, "No esta autorizado"));
+    return res.json({ error: "No esta autorizado" }).status(401);
   } else {
     next();
   }

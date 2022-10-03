@@ -8,7 +8,7 @@ export const createLista = async (req, res, next) => {
 
     const Usuario = await Users.findOne({
       where: {
-        id: usuariosId,
+        id: userId,
       },
     });
 
@@ -91,11 +91,11 @@ export const getListas = async (req, res, next) => {
 export const updateLista = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { precioTotal, completa, favorita, usuariosId } = req.body;
+    const { precioTotal, completa, favorita, userId } = req.body;
 
     const Lista = await ListaCompras.findOne({
       where: {
-        id,
+        id: id,
       },
     });
     if (Lista) {
@@ -104,7 +104,7 @@ export const updateLista = async (req, res, next) => {
           precioTotal: precioTotal,
           completa: completa,
           favorita: favorita,
-          usuariosId: usuariosId,
+          userId: userId,
         },
         {
           where: { id: id },
