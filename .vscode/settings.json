@@ -3,10 +3,10 @@
     "sqltools.connections": [
         {
             "previewLimit": 50,
-            "server": "databasepostgres.chwtoijulivn.us-east-2.rds.amazonaws.com",
+            "server": "databasepostgres2.cbpwbnrb4zfh.us-east-1.rds.amazonaws.com",
             "port": 5432,
             "driver": "PostgreSQL",
-            "name": "AWS2",
+            "name": "AWS",
             "database": "AppTesis2",
             "username": "postgres",
             "password": "postgres123"
