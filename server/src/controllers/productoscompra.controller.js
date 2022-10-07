@@ -1,5 +1,5 @@
 import Productos from "../models/productos.models.js";
-import ProductosCompra from "../models/productosCompra.models.js";
+import ProductosCompra from "../models/productoscompra.models.js";
 import { sequelize } from "../database/database.js";
 import Recetas from "../models/recetas.models.js";
 

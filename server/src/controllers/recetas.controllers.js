@@ -1,6 +1,6 @@
 import Recetas from "../models/recetas.models.js";
 import TipoReceta from "../models/tiporecetas.models.js";
-import ProductosCompras from "../models/productosCompra.models.js";
+import ProductosCompras from "../models/productoscompra.models.js";
 import ListaCompras from "../models/listacompras.models.js";
 import ProductosLista from "../models/productoslista.models.js";
 

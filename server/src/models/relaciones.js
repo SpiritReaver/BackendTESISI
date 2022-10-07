@@ -7,7 +7,7 @@ import relacionListasProductos from "../models/relacionlistasproductos.models.js
 import relacionProductosRecetas from "../models/relacionproductosrecetas.models.js";
 import relacionProductosPromedio from "../models/relacionproductospromedio.models.js";
 import Price from "../models/promedioprecios.models.js";
-import ProductosCompra from "../models/productosCompra.models.js";
+import ProductosCompra from "./productoscompra.models.js";
 import ProductosLista from "../models/productoslista.models.js";
 
 //Relacion de muchos a muchos entre listacompras y productosLista
