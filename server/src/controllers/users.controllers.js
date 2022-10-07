@@ -5,20 +5,26 @@ import Productos from "../models/productos.models.js";
 
 export async function createUser(req, res, next) {
   try {
-    const { nombre, apellido, correo, ciudad, telefono } = req.body;
+    const { nombre, correo, telefono } = req.body;
     let { contraseña } = req.body;
-    contraseña = await hashPassword(contraseña);
-    console.log(contraseña);
-    const newUser = await Users.create({
-      nombre,
-      apellido,
-      contraseña,
-      correo,
-      ciudad,
-      telefono,
+
+    const user = await Users.findOne({
+      where: {
+        correo: correo,
+      },
     });
-    res.json(newUser);
-    console.log("Usuario creado");
+    if (!user) {
+      contraseña = await hashPassword(contraseña);
+      const newUser = await Users.create({
+        nombre: nombre,
+        contraseña: contraseña,
+        correo: correo,
+        telefono: telefono,
+      });
+      res.json(newUser);
+    } else {
+      res.status(404).json({ message: "El usuario ya existe" });
+    }
   } catch (error) {
     next(error);
   }
@@ -27,7 +33,7 @@ export async function createUser(req, res, next) {
 export async function getUsers(req, res, next) {
   try {
     const UsersAll = await Users.findAll({
-      attributes: ["id", "nombre", "apellido", "correo", "ciudad", "telefono"],
+      attributes: ["id", "nombre", "correo", "telefono"],
       order: [["id", "DESC"]],
     });
 
@@ -46,6 +52,7 @@ export async function getUser(req, res, next) {
   const { id } = req.params;
   try {
     const User = await Users.findOne({
+      attributes: ["id", "nombre", "correo", "telefono"],
       where: {
         id,
       },
@@ -64,7 +71,7 @@ export async function getUser(req, res, next) {
 export const updateUsers = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { nombre, apellido, correo, ciudad, telefono } = req.body;
+    const { nombre, correo, telefono } = req.body;
 
     const User = await Users.findOne({
       where: {
@@ -76,9 +83,7 @@ export const updateUsers = async (req, res, next) => {
       await Users.update(
         {
           nombre: nombre,
-          apellido: apellido,
           correo: correo,
-          ciudad: ciudad,
           telefono: telefono,
         },
         {
@@ -99,14 +104,14 @@ export const deleteUser = async (req, res, next) => {
   try {
     const User = await Users.findOne({
       where: {
-        id,
+        id: id,
       },
     });
 
     if (User) {
       await Users.destroy({
         where: {
-          id,
+          id: id,
         },
       });
       res.json({ "Usuario Eliminado con ID:": id }).status(204);
@@ -123,7 +128,7 @@ export const getListasUsuario = async (req, res, next) => {
   try {
     const User = await Users.findOne({
       where: {
-        id,
+        id: id,
       },
     });
 

@@ -11,6 +11,8 @@ import "./models/relacionproductosrecetas.models.js";
 import "./models/promedioprecios.models.js";
 import "./models/relacionproductospromedio.models.js";
 import "./models/relaciones.js";
+import "./models/productoscompra.models.js";
+import "./models/productoslista.models.js";
 
 dotenv.config();
 

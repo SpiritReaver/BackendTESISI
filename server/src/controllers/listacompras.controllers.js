@@ -1,19 +1,20 @@
 import ListaCompras from "../models/listacompras.models.js";
 import Users from "../models/usuarios.models.js";
-import Product from "../models/productos.models.js";
+import ProductoLista from "../models/productoslista.models.js";
 
 export const createLista = async (req, res, next) => {
   try {
-    const { precioTotal, completa, favorita, userId } = req.body;
+    const { nombre, precioTotal, completa, favorita, userId } = req.body;
 
     const Usuario = await Users.findOne({
       where: {
-        id: usuariosId,
+        id: userId,
       },
     });
 
     if (Usuario) {
       const newLista = await ListaCompras.create({
+        nombre,
         precioTotal,
         completa,
         favorita,
@@ -39,12 +40,19 @@ export const getLista = async (req, res, next) => {
       where: {
         id: id,
       },
-      attributes: ["id", "precioTotal", "completa", "favorita", "userId"],
+      attributes: [
+        "id",
+        "nombre",
+        "precioTotal",
+        "completa",
+        "favorita",
+        "userId",
+      ],
       include: [
         {
-          model: Product,
+          model: ProductoLista,
           as: "Productos",
-          attributes: ["producto", "precio"],
+          attributes: ["producto", "precio", "cantidad", "completo"],
           through: {
             attributes: [],
           },
@@ -65,12 +73,19 @@ export const getLista = async (req, res, next) => {
 export const getListas = async (req, res, next) => {
   try {
     const AllListas = await ListaCompras.findAll({
-      attributes: ["id", "precioTotal", "completa", "favorita", "userId"],
+      attributes: [
+        "id",
+        "nombre",
+        "precioTotal",
+        "completa",
+        "favorita",
+        "userId",
+      ],
       include: [
         {
-          model: Product,
+          model: ProductoLista,
           as: "Productos",
-          attributes: ["producto", "precio"],
+          attributes: ["producto", "precio", "cantidad", "completo"],
           through: {
             attributes: [],
           },
@@ -91,7 +106,7 @@ export const getListas = async (req, res, next) => {
 export const updateLista = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { precioTotal, completa, favorita, usuariosId } = req.body;
+    const { nombre, precioTotal, completa, favorita, userId } = req.body;
 
     const Lista = await ListaCompras.findOne({
       where: {
@@ -101,10 +116,11 @@ export const updateLista = async (req, res, next) => {
     if (Lista) {
       await ListaCompras.update(
         {
+          nombre: nombre,
           precioTotal: precioTotal,
           completa: completa,
           favorita: favorita,
-          usuariosId: usuariosId,
+          userId: userId,
         },
         {
           where: { id: id },
@@ -151,7 +167,7 @@ export const addProductoToList = async (req, res, next) => {
       },
     });
 
-    const producto = await Product.findOne({
+    const producto = await ProductosCompra.findOne({
       where: {
         codProducto: req.body.codProducto,
       },
@@ -189,7 +205,7 @@ export const removeProductoOnList = async (req, res, next) => {
       },
     });
 
-    const producto = await Product.findOne({
+    const producto = await ProductosCompra.findOne({
       where: {
         codProducto: req.body.codProducto,
       },

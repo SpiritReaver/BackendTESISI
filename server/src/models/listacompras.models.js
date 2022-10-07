@@ -9,6 +9,10 @@ export const ListaCompras = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    nombre: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     precioTotal: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
@@ -30,6 +34,6 @@ export const ListaCompras = sequelize.define(
   }
 );
 
-await ListaCompras.sync();
+await ListaCompras.sync({ force: false });
 
 export default ListaCompras;

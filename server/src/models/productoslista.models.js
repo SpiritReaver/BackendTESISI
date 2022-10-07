@@ -1,28 +1,38 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
 
-export const Productos = sequelize.define(
-  "productos",
+export const ProductosLista = sequelize.define(
+  "productoslista",
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    producto: {
-      type: DataTypes.STRING(500),
-      allowNull: false,
-    },
     codProducto: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    ciudad: {
-      type: DataTypes.STRING,
+    producto: {
+      type: DataTypes.STRING(500),
       allowNull: false,
     },
     precio: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    precioKilogramo: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    cantidad: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+      allowNull: false,
+    },
+    completo: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
       allowNull: false,
     },
     fechaCaptura: {
@@ -35,6 +45,6 @@ export const Productos = sequelize.define(
   }
 );
 
-await Productos.sync();
+await ProductosLista.sync();
 
-export default Productos;
+export default ProductosLista;

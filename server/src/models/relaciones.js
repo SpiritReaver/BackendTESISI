@@ -5,29 +5,31 @@ import User from "../models/usuarios.models.js";
 import Recipes from "../models/recetas.models.js";
 import relacionListasProductos from "../models/relacionlistasproductos.models.js";
 import relacionProductosRecetas from "../models/relacionproductosrecetas.models.js";
+import relacionProductosPromedio from "../models/relacionproductospromedio.models.js";
 import Price from "../models/promedioprecios.models.js";
-import relacionProductosPromedio from "./relacionproductospromedio.models.js";
+import ProductosCompra from "../models/productosCompra.models.js";
+import ProductosLista from "../models/productoslista.models.js";
 
-//Relacion de muchos a muchos entre listacompras y productos
-Product.belongsToMany(List, {
+//Relacion de muchos a muchos entre listacompras y productosLista
+ProductosLista.belongsToMany(List, {
   through: relacionListasProductos,
   unique: false,
   as: "Listas",
 });
-List.belongsToMany(Product, {
+List.belongsToMany(ProductosLista, {
   through: relacionListasProductos,
   unique: false,
   as: "Productos",
 });
 
-//Relacion de muchos a muchos entre recetas y productos
-Recipes.belongsToMany(Product, {
+//Relacion de muchos a muchos entre recetas y productosCompra
+Recipes.belongsToMany(ProductosCompra, {
   through: relacionProductosRecetas,
   unique: false,
   as: "Productos",
 });
 
-Product.belongsToMany(Recipes, {
+ProductosCompra.belongsToMany(Recipes, {
   through: relacionProductosRecetas,
   unique: false,
   as: "Recetas",

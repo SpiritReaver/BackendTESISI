@@ -13,10 +13,6 @@ export const Users = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    apellido: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     contraseña: {
       type: DataTypes.STRING(1000),
       allowNull: false,
@@ -25,10 +21,6 @@ export const Users = sequelize.define(
       type: DataTypes.STRING(500),
       allowNull: false,
       unique: true,
-    },
-    ciudad: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
     telefono: {
       type: DataTypes.INTEGER,
@@ -40,6 +32,6 @@ export const Users = sequelize.define(
   }
 );
 
-await Users.sync();
+await Users.sync({ force: false });
 
 export default Users;

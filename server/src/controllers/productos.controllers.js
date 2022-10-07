@@ -41,7 +41,7 @@ export const getProducto = async (req, res, next) => {
     const Producto = await Productos.findOne({
       attributes: ["id", "producto", "codProducto", "ciudad", "precio"],
       where: {
-        id,
+        id: id,
       },
     });
     if (Producto) {
@@ -61,7 +61,7 @@ export const updateProducto = async (req, res, next) => {
 
     const Producto = await Productos.findOne({
       where: {
-        id,
+        id: id,
       },
     });
     if (Producto) {
@@ -97,7 +97,7 @@ export const deleteProducto = async (req, res, next) => {
     if (Producto) {
       await Productos.destroy({
         where: {
-          id,
+          id: id,
         },
       });
       res.json({ "Producto Eliminado con ID:": req.params.id }).status(204);

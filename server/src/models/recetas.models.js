@@ -17,6 +17,12 @@ export const Recetas = sequelize.define(
       type: DataTypes.STRING(3000),
       allowNull: false,
     },
+    imagen: {
+      type: DataTypes.STRING(500),
+      defaultValue:
+        "https://www.clara.es/medio/2022/07/26/canelones-de-verdura_d2aa4957_1280x720.jpg",
+      allowNull: true,
+    },
     pasos: {
       type: DataTypes.STRING(5000),
       allowNull: false,
@@ -25,9 +31,17 @@ export const Recetas = sequelize.define(
       type: DataTypes.STRING(1000),
       allowNull: false,
     },
+    precioPorcion: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
     precioReceta: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      defaultValue: 0,
+    },
+    porciones: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
     },
   },
   {

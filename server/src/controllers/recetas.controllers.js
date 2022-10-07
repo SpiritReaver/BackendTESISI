@@ -1,18 +1,19 @@
 import Recetas from "../models/recetas.models.js";
 import TipoReceta from "../models/tiporecetas.models.js";
-import Product from "../models/productos.models.js";
+import ProductosCompras from "../models/productosCompra.models.js";
 import ListaCompras from "../models/listacompras.models.js";
+import ProductosLista from "../models/productoslista.models.js";
 
 export const createReceta = async (req, res, next) => {
   try {
-    const { titulo, descripcion, informacionNutricional, pasos, precioReceta } =
+    const { titulo, descripcion, imagen, informacionNutricional, pasos } =
       req.body;
     const newReceta = await Recetas.create({
       titulo,
       descripcion,
       pasos,
+      imagen,
       informacionNutricional,
-      precioReceta,
     });
     res.json({ newReceta }).status(200);
     console.log("Receta creada");
@@ -29,10 +30,13 @@ export const getReceta = async (req, res, next) => {
         "id",
         "titulo",
         "descripcion",
+        "imagen",
         "informacionNutricional",
         "pasos",
         "precioReceta",
+        "porciones",
         "tiporecetasId",
+        "precioPorcion",
       ],
       where: {
         id: id,
@@ -44,9 +48,9 @@ export const getReceta = async (req, res, next) => {
           attributes: ["descripcion", "tipoReceta"],
         },
         {
-          model: Product,
+          model: ProductosCompras,
           as: "Productos",
-          attributes: ["producto", "precio"],
+          attributes: ["producto", "precioKilogramo", "precio", "cantidad"],
           through: {
             attributes: [],
           },
@@ -71,10 +75,13 @@ export const getRecetas = async (req, res, next) => {
         "id",
         "titulo",
         "descripcion",
+        "imagen",
         "informacionNutricional",
         "pasos",
         "precioReceta",
+        "porciones",
         "tiporecetasId",
+        "precioPorcion",
       ],
       include: [
         {
@@ -83,9 +90,9 @@ export const getRecetas = async (req, res, next) => {
           attributes: ["descripcion", "tipoReceta"],
         },
         {
-          model: Product,
+          model: ProductosCompras,
           as: "Productos",
-          attributes: ["producto", "precio"],
+          attributes: ["producto", "precioKilogramo", "precio", "cantidad"],
           through: {
             attributes: [],
           },
@@ -113,11 +120,13 @@ export const updateReceta = async (req, res, next) => {
       pasos,
       precioReceta,
       tiporecetasId,
+      porciones,
+      precioPorcion,
     } = req.body;
 
     const Receta = await Recetas.findOne({
       where: {
-        id,
+        id: id,
       },
     });
     if (Receta) {
@@ -129,11 +138,15 @@ export const updateReceta = async (req, res, next) => {
           pasos: pasos,
           precioReceta: precioReceta,
           tiporecetasId: tiporecetasId,
+          porciones: porciones,
+          precioPorcion: precioPorcion,
         },
         {
           where: { id: id },
         }
       );
+
+      await UpdatePrices(req);
 
       res.json({ "Receta Actualizada con ID:": req.params.id }).status(200);
     } else {
@@ -175,7 +188,7 @@ export const addProductoToReceta = async (req, res, next) => {
       },
     });
 
-    const producto = await Product.findOne({
+    const producto = await ProductosCompras.findOne({
       where: {
         codProducto: req.body.codProducto,
       },
@@ -183,6 +196,8 @@ export const addProductoToReceta = async (req, res, next) => {
     if (Receta && producto) {
       if (!(await Receta.hasProductos(producto))) {
         await Receta.addProductos(producto);
+        await UpdatePrices(req);
+
         res
           .json({
             message:
@@ -205,6 +220,35 @@ export const addProductoToReceta = async (req, res, next) => {
   }
 };
 
+export async function UpdatePrices(req) {
+  try {
+    const Receta = await Recetas.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    const productos = await Receta.getProductos();
+    let i = 0;
+
+    productos.forEach(async (producto) => {
+      i = i + producto.precio;
+    });
+
+    await Recetas.update(
+      {
+        precioPorcion: i,
+        precioReceta: i * Receta.porciones,
+      },
+      {
+        where: { id: req.params.id },
+      }
+    );
+  } catch (error) {
+    next(error);
+  }
+}
+
 export const removeProductoOnReceta = async (req, res, next) => {
   try {
     const Receta = await Recetas.findOne({
@@ -213,7 +257,7 @@ export const removeProductoOnReceta = async (req, res, next) => {
       },
     });
 
-    const producto = await Product.findOne({
+    const producto = await ProductosCompras.findOne({
       where: {
         codProducto: req.body.codProducto,
       },
@@ -221,6 +265,7 @@ export const removeProductoOnReceta = async (req, res, next) => {
     if (Receta && producto) {
       if (await Receta.hasProductos(producto)) {
         await Receta.removeProductos(producto);
+        await UpdatePrices(req);
         res
           .json({
             message:
@@ -331,14 +376,37 @@ export const ProductosRecetaToList = async (req, res, next) => {
       },
     });
     if (receta) {
-      const newLista = await ListaCompras.create({});
+      const newLista = await ListaCompras.create({
+        nombre: "Lista de compras para: " + receta.titulo,
+      });
       const productos = await receta.getProductos();
       let i = 0;
+      await productos.forEach(async (producto) => {
+        i = producto.precio + i;
+        const productolista = await ProductosLista.create({
+          codProducto: producto.codProducto,
+          producto: producto.producto,
+          precio: producto.precio,
+          precioKilogramo: producto.precio,
+          cantidad: producto.cantidad,
+          fechaCaptura: producto.fechaCaptura,
+        });
 
-      productos.forEach(async (producto) => {
-        i = i + producto.precio;
-        await newLista.addProductos(producto);
+        await newLista.setProductos(productolista);
       });
+
+      if (req.cookies.ID) {
+        await ListaCompras.update(
+          {
+            userId: req.cookies.ID,
+          },
+          {
+            where: {
+              id: newLista.id,
+            },
+          }
+        );
+      }
 
       await ListaCompras.update(
         {
@@ -350,13 +418,12 @@ export const ProductosRecetaToList = async (req, res, next) => {
           },
         }
       );
-
       await res
         .json({
           message:
             "Lista de compras con productos creada con ID: " +
             newLista.id +
-            "y precio total: " +
+            " y precio total: " +
             i,
         })
         .status(200);

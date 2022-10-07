@@ -11,6 +11,8 @@ import listacomprasRoutes from "./routes/listacompras.routes.js";
 import recetasRoutes from "./routes/recetas.routes.js";
 import tiporecetasRoutes from "./routes/tiporecetas.routes.js";
 import promediopreciosRoutes from "./routes/promedioprecios.routes.js";
+import productosCompra from "./routes/productoscompra.routes.js";
+import productosLista from "./routes/productoslista.routes.js";
 
 const app = express();
 
@@ -24,6 +26,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/productos", productosRoutes);
+app.use("/api/productoscompra", productosCompra);
+app.use("/api/productoslista", productosLista);
 app.use("/api/listacompras", listacomprasRoutes);
 app.use("/api/recetas", recetasRoutes);
 app.use("/api/tiporecetas", tiporecetasRoutes);
