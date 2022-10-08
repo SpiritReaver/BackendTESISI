@@ -23,7 +23,7 @@ export const Users = sequelize.define(
       unique: true,
     },
     telefono: {
-      type: DataTypes.INTEGER(40),
+      type: DataTypes.BIGINT,
       allowNull: false,
     },
   },
