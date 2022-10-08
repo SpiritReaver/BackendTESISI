@@ -3,7 +3,6 @@ import Type from "../models/tiporecetas.models.js";
 import List from "../models/listacompras.models.js";
 import User from "../models/usuarios.models.js";
 import Recipes from "../models/recetas.models.js";
-import relacionListasProductos from "../models/relacionlistasproductos.models.js";
 import relacionProductosRecetas from "../models/relacionproductosrecetas.models.js";
 import relacionProductosPromedio from "../models/relacionproductospromedio.models.js";
 import Price from "../models/promedioprecios.models.js";
@@ -11,15 +10,17 @@ import ProductosCompra from "./productoscompra.models.js";
 import ProductosLista from "../models/productoslista.models.js";
 
 //Relacion de muchos a muchos entre listacompras y productosLista
-ProductosLista.belongsToMany(List, {
-  through: relacionListasProductos,
-  unique: false,
-  as: "Listas",
-});
-List.belongsToMany(ProductosLista, {
-  through: relacionListasProductos,
-  unique: false,
+
+List.hasMany(ProductosLista, {
   as: "Productos",
+  unique: true,
+  foreignKey: "listId",
+  sourceKey: "id",
+});
+ProductosLista.belongsTo(List, {
+  as: "Listas",
+  foreignKey: "listId",
+  targetId: "id",
 });
 
 //Relacion de muchos a muchos entre recetas y productosCompra

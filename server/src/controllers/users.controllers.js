@@ -137,24 +137,19 @@ export const getListasUsuario = async (req, res, next) => {
         where: {
           userId: id,
         },
-        include: [
-          {
-            model: ProductosLista,
-            as: "Productos",
-            attributes: [
-              "id",
-              "codProducto",
-              "producto",
-              "precio",
-              "precioKilogramo",
-              "cantidad",
-              "completo",
-            ],
-            through: {
-              attributes: [],
-            },
-          },
-        ],
+        include: {
+          model: ProductosLista,
+          as: "Productos",
+          attributes: [
+            "id",
+            "codProducto",
+            "producto",
+            "precio",
+            "precioKilogramo",
+            "cantidad",
+            "completo",
+          ],
+        },
       });
       if (listasCompras) {
         res.json({ listasCompras }).status(200);

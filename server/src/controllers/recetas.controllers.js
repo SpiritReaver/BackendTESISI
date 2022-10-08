@@ -379,6 +379,7 @@ export const ProductosRecetaToList = async (req, res, next) => {
       const newLista = await ListaCompras.create({
         nombre: "Lista de compras para: " + receta.titulo,
       });
+      console.log(newLista.id);
       const productos = await receta.getProductos();
       let i = 0;
       await productos.forEach(async (producto) => {

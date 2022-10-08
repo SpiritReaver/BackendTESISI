@@ -6,7 +6,6 @@ import "./models/tiporecetas.models.js";
 import "./models/listacompras.models.js";
 import "./models/usuarios.models.js";
 import "./models/recetas.models.js";
-import "./models/relacionlistasproductos.models.js";
 import "./models/relacionproductosrecetas.models.js";
 import "./models/promedioprecios.models.js";
 import "./models/relacionproductospromedio.models.js";

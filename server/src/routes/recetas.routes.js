@@ -11,6 +11,7 @@ import {
   removeTipoRecetaOnReceta,
   ProductosRecetaToList,
 } from "../controllers/recetas.controllers.js";
+import { verifyToken, verifyUser } from "../validators/tokenVerifier.js";
 
 const router = Router();
 
@@ -23,6 +24,11 @@ router.post("/:id/addproducto", addProductoToReceta);
 router.post("/:id/remproducto", removeProductoOnReceta);
 router.post("/:id/addtipo", addTipoRecetaToReceta);
 router.post("/:id/remtipo", removeTipoRecetaOnReceta);
-router.post("/:id/recetatolist", ProductosRecetaToList);
+router.post(
+  "/:id/recetatolist",
+  verifyToken,
+  verifyUser,
+  ProductosRecetaToList
+);
 
 export default router;

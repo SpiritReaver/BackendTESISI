@@ -60,10 +60,8 @@ export const getLista = async (req, res, next) => {
             "precioKilogramo",
             "cantidad",
             "completo",
+            "listId",
           ],
-          through: {
-            attributes: [],
-          },
         },
       ],
     });
@@ -100,10 +98,8 @@ export const getListas = async (req, res, next) => {
             "precioKilogramo",
             "cantidad",
             "completo",
+            "listId",
           ],
-          through: {
-            attributes: [],
-          },
         },
       ],
       order: [["id", "ASC"]],
@@ -179,26 +175,36 @@ export const addProductoToList = async (req, res, next) => {
     const lista = await ListaCompras.findOne({
       where: {
         id: req.params.id,
-        "Productos.codProducto": req.body.codProducto,
       },
     });
-    console.log(lista);
+
     const productoCompra = await ProductoCompra.findOne({
       where: { codProducto: req.body.codProducto },
     });
-
     if (lista && productoCompra) {
-      const productlista = await ProductoLista.create({
-        codProducto: productoCompra.codProducto,
-        producto: productoCompra.producto,
-        precio: productoCompra.precio,
-        precioKilogramo: productoCompra.precioKilogramo,
-        cantidad: productoCompra.cantidad,
-        fechaCaptura: productoCompra.fechaCaptura,
+      const contiene = await ListaCompras.findOne({
+        where: {
+          id: req.params.id,
+        },
+        include: [
+          {
+            model: ProductoLista,
+            as: "Productos",
+            where: { codProducto: req.body.codProducto },
+          },
+        ],
       });
 
-      if (!(await lista.hasProductos(productlista))) {
-        await lista.setProductos(productlista);
+      if (!contiene) {
+        const productlista = await ProductoLista.create({
+          codProducto: productoCompra.codProducto,
+          producto: productoCompra.producto,
+          precio: productoCompra.precio,
+          precioKilogramo: productoCompra.precioKilogramo,
+          cantidad: productoCompra.cantidad,
+          fechaCaptura: productoCompra.fechaCaptura,
+        });
+        await lista.addProductos(productlista);
         await UpdatePriceslista(req);
         res
           .json({
@@ -210,11 +216,6 @@ export const addProductoToList = async (req, res, next) => {
           })
           .status(200);
       } else {
-        await ProductoLista.destroy({
-          where: {
-            id: productlista.id,
-          },
-        });
         res
           .status(404)
           .json({ message: "El producto ya encuentra en la lista" });
@@ -233,21 +234,29 @@ export const removeProductoOnList = async (req, res, next) => {
       where: {
         id: req.params.id,
       },
+      include: [
+        {
+          model: ProductoLista,
+          as: "Productos",
+        },
+      ],
     });
 
     const producto = await ProductoLista.findOne({
       where: {
         codProducto: req.body.codProducto,
+        listId: req.params.id,
       },
     });
-    console.log(producto);
     if (lista && producto) {
-      console.log(await lista.hasProductos(producto));
       if (await lista.hasProductos(producto)) {
         await lista.removeProductos(producto);
         await ProductoLista.destroy({
-          where: { id: producto.id },
+          where: {
+            id: producto.id,
+          },
         });
+
         await UpdatePriceslista(req);
 
         res

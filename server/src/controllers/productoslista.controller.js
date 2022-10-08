@@ -30,6 +30,7 @@ export const getProductosLista = async (req, res, next) => {
         "precioKilogramo",
         "cantidad",
         "completo",
+        "listId",
       ],
       order: [["codProducto", "ASC"]],
     });
@@ -57,6 +58,7 @@ export const getProductoLista = async (req, res, next) => {
         "precioKilogramo",
         "cantidad",
         "completo",
+        "listId",
       ],
       where: {
         id: id,
@@ -82,6 +84,7 @@ export const updateProductoLista = async (req, res, next) => {
       precioKilogramo,
       cantidad,
       completo,
+      listId,
     } = req.body;
 
     const ProductoLista = await ProductosLista.findOne({
@@ -98,6 +101,7 @@ export const updateProductoLista = async (req, res, next) => {
           precioKilogramo: precioKilogramo,
           cantidad: cantidad,
           completo: completo,
+          listId: listId,
         },
         {
           where: { id: id },
