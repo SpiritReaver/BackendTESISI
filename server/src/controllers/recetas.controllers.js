@@ -387,7 +387,7 @@ export const ProductosRecetaToList = async (req, res, next) => {
           codProducto: producto.codProducto,
           producto: producto.producto,
           precio: producto.precio,
-          precioKilogramo: producto.precio,
+          precioKilogramo: producto.precioKilogramo,
           cantidad: producto.cantidad,
           fechaCaptura: producto.fechaCaptura,
         });

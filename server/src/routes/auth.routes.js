@@ -11,6 +11,8 @@ router.get("/checkToken", verifyToken, (req, res, next) => {
   res.json(true);
 });
 
-router.get("/checkUser/:id", verifyToken, verifyUser);
+router.get("/checkUser/:id", verifyToken, verifyUser, (req, res, next) => {
+  res.json(true);
+});
 
 export default router;

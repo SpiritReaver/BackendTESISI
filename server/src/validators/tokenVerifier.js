@@ -19,9 +19,9 @@ export const verifyToken = (req, res, next) => {
 
 export const verifyUser = (req, res, next) => {
   const id = Number(req.params.id);
-  const reqid = req.user.user.id;
-  console.log(typeof id, typeof reqid);
-  if (id !== reqid) {
+  const reqid = Number(req.cookies.ID);
+  const Idtext = req.user.user.id;
+  if (id !== reqid || id !== Idtext) {
     return next(createError(401, "No esta autorizado"));
   } else {
     next();

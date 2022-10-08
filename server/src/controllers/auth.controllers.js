@@ -42,7 +42,7 @@ export const Registro = async (req, res, next) => {
         .cookie("access_token", token, {
           httpOnly: true,
         })
-        .cookie("ID", userExist.id, {
+        .cookie("ID", newUser.id, {
           httpOnly: true,
         })
         .status(200)

@@ -1,7 +1,7 @@
 import { Users } from "../models/usuarios.models.js";
 import { hashPassword } from "../utils/bcrypt.js";
 import ListaCompras from "../models/listacompras.models.js";
-import Productos from "../models/productos.models.js";
+import ProductosLista from "../models/productoslista.models.js";
 
 export async function createUser(req, res, next) {
   try {
@@ -139,9 +139,17 @@ export const getListasUsuario = async (req, res, next) => {
         },
         include: [
           {
-            model: Productos,
+            model: ProductosLista,
             as: "Productos",
-            attributes: ["producto", "precio"],
+            attributes: [
+              "id",
+              "codProducto",
+              "producto",
+              "precio",
+              "precioKilogramo",
+              "cantidad",
+              "completo",
+            ],
             through: {
               attributes: [],
             },
