@@ -1,5 +1,4 @@
 import ProductosLista from "../models/productoslista.models.js";
-import { sequelize } from "../database/database.js";
 
 export const createProductoLista = async (req, res, next) => {
   try {
