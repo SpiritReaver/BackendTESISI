@@ -9,20 +9,6 @@ import Price from "../models/promedioprecios.models.js";
 import ProductosCompra from "./productoscompra.models.js";
 import ProductosLista from "../models/productoslista.models.js";
 
-//Relacion de muchos a muchos entre listacompras y productosLista
-
-List.hasMany(ProductosLista, {
-  as: "Productos",
-  unique: true,
-  foreignKey: "listId",
-  sourceKey: "id",
-});
-ProductosLista.belongsTo(List, {
-  as: "Listas",
-  foreignKey: "listId",
-  targetId: "id",
-});
-
 //Relacion de muchos a muchos entre recetas y productosCompra
 Recipes.belongsToMany(ProductosCompra, {
   through: relacionProductosRecetas,
@@ -59,6 +45,20 @@ Recipes.belongsTo(Type, {
   foreignKey: "tiporecetasId",
   targetId: "id",
   as: "Tiporeceta",
+});
+
+//Relacion de uno a muchos entre listacompras y productosLista
+
+List.hasMany(ProductosLista, {
+  as: "Productos",
+  unique: true,
+  foreignKey: "listId",
+  sourceKey: "id",
+});
+ProductosLista.belongsTo(List, {
+  as: "Listas",
+  foreignKey: "listId",
+  targetId: "id",
 });
 
 //Relacion de uno a muchos entre usuarios y listas de compras
