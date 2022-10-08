@@ -8,11 +8,9 @@ function validEmail(correo) {
 
 export const Registro = async (req, res, next) => {
   try {
-    const { nombre, apellido, correo, ciudad, telefono, contraseña } = req.body;
+    const { nombre, correo, telefono, contraseña } = req.body;
 
-    if (
-      ![nombre, apellido, correo, ciudad, telefono, contraseña].every(Boolean)
-    ) {
+    if (![nombre, correo, telefono, contraseña].every(Boolean)) {
       return res.status(401).json("Faltan credenciales en los campos");
     } else if (!validEmail(correo)) {
       return res.status(401).json("Correo Invalido");
@@ -30,9 +28,7 @@ export const Registro = async (req, res, next) => {
       const hashedPassword = await hashPassword(contraseña);
       const newUser = await Users.create({
         nombre,
-        apellido,
         correo,
-        ciudad,
         telefono,
         contraseña: hashedPassword,
       });
