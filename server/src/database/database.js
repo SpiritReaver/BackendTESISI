@@ -10,6 +10,10 @@ export const sequelize = new Sequelize(
     dialect: db.dialect,
     port: db.port,
     charset: "utf8",
+    dialectOptions: {
+      ssl: true,
+      native: true,
+    },
   }
 );
 

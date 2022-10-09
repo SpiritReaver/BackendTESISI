@@ -10,6 +10,19 @@
             "database": "AppTesis2",
             "username": "postgres",
             "password": "postgres123"
+        },
+        {
+            "pgOptions": {
+                "ssl": true
+            },
+            "previewLimit": 50,
+            "server": "dpg-cd18ancgqg4akce6mv50-a.ohio-postgres.render.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "RENDER",
+            "database": "apptesis2",
+            "username": "apptesis2_user",
+            "password": "7Q7CxGvMcQR7Oz0NjI32ia0MtGknOS4h"
         }
     ]
 }

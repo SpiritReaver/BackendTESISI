@@ -32,7 +32,7 @@ export const Registro = async (req, res, next) => {
         telefono,
         contraseña: hashedPassword,
       });
-      const token = await JWTgenerator(newUser.id);
+      const token = await JWTgenerator({ id: newUser.id });
 
       await res
         .cookie("access_token", token, {
