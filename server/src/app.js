@@ -18,7 +18,7 @@ const app = express();
 
 // Middlewares
 app.use(morgan("dev"));
-app.use(cors({ credentials: true, origin: "http://localhost:3050" }));
+app.use(cors({ credentials: true, origin: "*" }));
 app.use(cookieParser());
 app.use(express.json());
 
