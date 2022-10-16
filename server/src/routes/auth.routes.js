@@ -19,6 +19,6 @@ router.get("/checkUser", verifyToken, verifyUser, (req, res, next) => {
   res.json(true);
 });
 
-router.get("/getuser/:token", verifyToken, getUser);
+router.get("/getUser/:token", verifyToken, getUser);
 
 export default router;
