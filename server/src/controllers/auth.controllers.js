@@ -81,12 +81,10 @@ export const Login = async (req, res, next) => {
         await res
           .cookie("token", token, {
             httpOnly: true,
-            sameSite: "none",
             secure: false,
           })
           .cookie("ID", userExist.id, {
             httpOnly: true,
-            sameSite: "none",
             secure: false,
           })
           .status(200)
