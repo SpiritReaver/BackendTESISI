@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const verifyToken = (req, res, next) => {
-  const { token } = req.params;
+  const { token } = req.params || req.cookies.access_token;
   if (!token) {
     return next(createError(401, "No esta autorizado"));
   }
@@ -29,10 +29,9 @@ export const verifyUser = (req, res, next) => {
 };
 
 export const getUser = (req, res, next) => {
-  const { token } = req.params;
+  const { token } = req.params || req.cookies.access_token;
   if (token) {
     const userId = jwt.verify(token, process.env.SECRET_JWT);
-    console.log(userId.user.id);
     return res.json(userId.user.id);
   } else {
     return next(createError(401, "No hay token"));
