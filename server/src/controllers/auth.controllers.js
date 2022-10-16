@@ -37,13 +37,9 @@ export const Registro = async (req, res, next) => {
       await res
         .cookie("access_token", token, {
           httpOnly: true,
-          sameSite: "none",
-          secure: false,
         })
         .cookie("ID", newUser.id, {
           httpOnly: true,
-          sameSite: "none",
-          secure: false,
         })
         .status(200)
         .json({ token });
@@ -80,12 +76,10 @@ export const Login = async (req, res, next) => {
 
         await res
           .cookie("access_token", token, {
-            sameSite: "none",
-            secure: true,
+            httpOnly: true,
           })
           .cookie("ID", userExist.id, {
-            sameSite: "none",
-            secure: true,
+            httpOnly: true,
           })
           .status(200)
           .json({ token });
