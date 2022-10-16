@@ -18,7 +18,7 @@ const app = express();
 
 // Middlewares
 app.use(morgan("dev"));
-app.use(cors());
+app.use(cors({ credentials: true, origin: "http://3.83.218.170:4000/" }));
 app.use(cookieParser());
 app.use(express.json());
 
