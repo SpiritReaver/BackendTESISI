@@ -82,12 +82,12 @@ export const Login = async (req, res, next) => {
           .cookie("token", token, {
             httpOnly: true,
             sameSite: "none",
-            secure,
+            secure: false,
           })
           .cookie("ID", userExist.id, {
             httpOnly: true,
             sameSite: "none",
-            secure,
+            secure: false,
           })
           .status(200)
           .json({ token });
