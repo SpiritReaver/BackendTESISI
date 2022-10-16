@@ -35,7 +35,7 @@ export const Registro = async (req, res, next) => {
       const token = await JWTgenerator({ id: newUser.id });
 
       await res
-        .cookie("token", token, {
+        .cookie("access_token", token, {
           httpOnly: true,
           sameSite: "none",
           secure: false,
@@ -79,7 +79,7 @@ export const Login = async (req, res, next) => {
         const token = await JWTgenerator({ id: userExist.id });
 
         await res
-          .cookie("token", token, {
+          .cookie("access_token", token, {
             sameSite: "none",
             secure: true,
           })
