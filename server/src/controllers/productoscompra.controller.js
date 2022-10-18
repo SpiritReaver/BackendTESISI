@@ -93,7 +93,7 @@ export const updateProductoCompra = async (req, res, next) => {
           precioKilogramo: precioKilogramo,
         },
         {
-          where: { id: id },
+          where: { codProducto: id },
         }
       );
       await UpdatePricesAll(req);
