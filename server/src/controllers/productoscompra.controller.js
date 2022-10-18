@@ -157,7 +157,7 @@ async function UpdatePricesAll(req) {
         precio: Producto.precioKilogramo * Producto.cantidad,
       },
       {
-        where: { id: req.params.id },
+        where: { codProducto: req.params.id },
       }
     );
   } catch (error) {}
