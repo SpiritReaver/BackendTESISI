@@ -50,7 +50,13 @@ export const getReceta = async (req, res, next) => {
         {
           model: ProductosCompras,
           as: "Productos",
-          attributes: ["producto", "precioKilogramo", "precio", "cantidad"],
+          attributes: [
+            "id",
+            "producto",
+            "precioKilogramo",
+            "precio",
+            "cantidad",
+          ],
           through: {
             attributes: [],
           },
@@ -92,7 +98,13 @@ export const getRecetas = async (req, res, next) => {
         {
           model: ProductosCompras,
           as: "Productos",
-          attributes: ["producto", "precioKilogramo", "precio", "cantidad"],
+          attributes: [
+            "id",
+            "producto",
+            "precioKilogramo",
+            "precio",
+            "cantidad",
+          ],
           through: {
             attributes: [],
           },
