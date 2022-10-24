@@ -18,8 +18,8 @@ router.get("/", getUsers);
 router.get("/:id", getUser);
 router.delete("/:id", deleteUser);
 router.put("/:id", updateUsers);
-router.get("/:id/listascompras", verifyToken, verifyUser, getListasUsuario);
-router.post("/:id/addlista", verifyToken, verifyUser, addListaToUsuario);
-router.post("/:id/remlista", verifyToken, verifyUser, removeListaToUsuario);
+router.get("/:id/listascompras", getListasUsuario);
+router.post("/:id/addlista", addListaToUsuario);
+router.post("/:id/remlista", removeListaToUsuario);
 
 export default router;
