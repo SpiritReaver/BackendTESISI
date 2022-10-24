@@ -128,6 +128,7 @@ export const updateReceta = async (req, res, next) => {
     const {
       titulo,
       descripcion,
+      imagen,
       informacionNutricional,
       pasos,
       precioReceta,
@@ -146,6 +147,7 @@ export const updateReceta = async (req, res, next) => {
         {
           titulo: titulo,
           descripcion: descripcion,
+          imagen: imagen,
           informacionNutricional: informacionNutricional,
           pasos: pasos,
           precioReceta: precioReceta,
@@ -408,10 +410,10 @@ export const ProductosRecetaToList = async (req, res, next) => {
         await newLista.setProductos(productolista);
       });
 
-      if (req.cookies.ID) {
+      if (req.body.UserId) {
         await ListaCompras.update(
           {
-            userId: req.cookies.ID,
+            userId: req.body.UserId,
           },
           {
             where: {

@@ -26,8 +26,6 @@ router.post("/:id/addtipo", addTipoRecetaToReceta);
 router.post("/:id/remtipo", removeTipoRecetaOnReceta);
 router.post(
   "/:id/recetatolist",
-  verifyToken,
-  verifyUser,
   ProductosRecetaToList
 );
 
