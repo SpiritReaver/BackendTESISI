@@ -410,22 +410,10 @@ export const ProductosRecetaToList = async (req, res, next) => {
         await newLista.setProductos(productolista);
       });
 
-      if (req.body.UserId) {
-        await ListaCompras.update(
-          {
-            userId: req.body.UserId,
-          },
-          {
-            where: {
-              id: newLista.id,
-            },
-          }
-        );
-      }
-
       await ListaCompras.update(
         {
-          precioTotal: i,
+          precioTotal: receta.precioReceta,
+          userId: req.body.userId,
         },
         {
           where: {
@@ -439,7 +427,7 @@ export const ProductosRecetaToList = async (req, res, next) => {
             "Lista de compras con productos creada con ID: " +
             newLista.id +
             " y precio total: " +
-            i,
+            receta.precioReceta,
         })
         .status(200);
     } else {
