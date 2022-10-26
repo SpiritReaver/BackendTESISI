@@ -124,17 +124,19 @@ export const deleteUser = async (req, res, next) => {
 };
 
 export const getListasUsuario = async (req, res, next) => {
+  const { id } = req.params;
+
   try {
     const User = await Users.findOne({
       where: {
-        id: req.cookies.ID,
+        id: id,
       },
     });
 
     if (User) {
       const listasCompras = await ListaCompras.findAll({
         where: {
-          userId: req.cookies.ID,
+          userId: id,
         },
         include: {
           model: ProductosLista,
