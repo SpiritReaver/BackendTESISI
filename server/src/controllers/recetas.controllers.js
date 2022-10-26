@@ -403,7 +403,7 @@ export const ProductosRecetaToList = async (req, res, next) => {
           producto: producto.producto,
           precio: producto.precio,
           precioKilogramo: producto.precioKilogramo,
-          cantidad: producto.cantidad,
+          cantidad: producto.cantidad * receta.porciones,
           fechaCaptura: producto.fechaCaptura,
         });
 
