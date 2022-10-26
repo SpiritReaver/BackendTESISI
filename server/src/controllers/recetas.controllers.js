@@ -247,6 +247,7 @@ export async function UpdatePrices(req) {
 
     productos.forEach(async (producto) => {
       i = i + producto.precio;
+      producto.cantidad;
     });
 
     await Recetas.update(
@@ -383,6 +384,9 @@ export const removeTipoRecetaOnReceta = async (req, res, next) => {
 };
 
 export const ProductosRecetaToList = async (req, res, next) => {
+  const { userId } = req.body;
+  console.log(req.body);
+
   try {
     const receta = await Recetas.findOne({
       where: {
@@ -393,7 +397,6 @@ export const ProductosRecetaToList = async (req, res, next) => {
       const newLista = await ListaCompras.create({
         nombre: "Lista de compras para: " + receta.titulo,
       });
-      console.log(newLista.id);
       const productos = await receta.getProductos();
       let i = 0;
       await productos.forEach(async (producto) => {
@@ -401,19 +404,18 @@ export const ProductosRecetaToList = async (req, res, next) => {
         const productolista = await ProductosLista.create({
           codProducto: producto.codProducto,
           producto: producto.producto,
-          precio: producto.precio,
+          precio: producto.precio * receta.porciones,
           precioKilogramo: producto.precioKilogramo,
           cantidad: producto.cantidad * receta.porciones,
           fechaCaptura: producto.fechaCaptura,
         });
-
         await newLista.setProductos(productolista);
       });
 
-      if (req.body.UserId) {
+      if (userId) {
         await ListaCompras.update(
           {
-            userId: req.body.UserId,
+            userId: userId,
           },
           {
             where: {
@@ -425,7 +427,7 @@ export const ProductosRecetaToList = async (req, res, next) => {
 
       await ListaCompras.update(
         {
-          precioTotal: i,
+          precioTotal: i * receta.porciones,
         },
         {
           where: {
@@ -439,7 +441,9 @@ export const ProductosRecetaToList = async (req, res, next) => {
             "Lista de compras con productos creada con ID: " +
             newLista.id +
             " y precio total: " +
-            i,
+            i * receta.porciones +
+            "Para el usuario con ID: " +
+            userId,
         })
         .status(200);
     } else {
