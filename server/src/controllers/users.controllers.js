@@ -149,6 +149,7 @@ export const getListasUsuario = async (req, res, next) => {
             "precioKilogramo",
             "cantidad",
             "completo",
+            "listId",
           ],
         },
       });
