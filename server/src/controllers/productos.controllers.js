@@ -31,7 +31,7 @@ export const getProductos = async (req, res, next) => {
       ],
       where: {
         fechaCaptura: {
-          [Op.gte]: "2022-01-01",
+          [Op.gte]: "2022-10-01",
         },
         ciudad: {
           [Op.eq]: "Bogotá, D.C., Corabastos",
