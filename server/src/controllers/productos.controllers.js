@@ -1,5 +1,6 @@
 import Productos from "../models/productos.models.js";
 import PromedioPrecios from "../models/promedioprecios.models.js";
+import { Op } from "sequelize";
 
 export const createProducto = async (req, res, next) => {
   try {
@@ -20,8 +21,27 @@ export const createProducto = async (req, res, next) => {
 export const getProductos = async (req, res, next) => {
   try {
     const ProductosAll = await Productos.findAll({
-      attributes: ["id", "producto", "codProducto", "ciudad", "precio"],
-      order: [["codProducto", "ASC"]],
+      attributes: [
+        "id",
+        "producto",
+        "codProducto",
+        "ciudad",
+        "precio",
+        "fechaCaptura",
+      ],
+      where: {
+        fechaCaptura: {
+          [Op.gte]: "2022-01-01",
+        },
+        ciudad: {
+          [Op.eq]: "Bogotá, D.C., Corabastos",
+        },
+      },
+      group: ["id", "codProducto"],
+      order: [
+        ["codProducto", "ASC"],
+        ["fechaCaptura", "ASC"],
+      ],
     });
 
     if (ProductosAll) {
