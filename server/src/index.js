@@ -22,6 +22,7 @@ async function main() {
     console.log("conexion a DB satisfactoria a DB" + process.env.DB_DATABASE);
     await sequelize.sync({ force: false });
     app.listen(4000);
+    console.log("server on port 4000");
   } catch (error) {
     console.error("No se pudo conectar a la DB:", error);
   }
