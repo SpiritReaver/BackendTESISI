@@ -29,8 +29,8 @@ async function main() {
         },
         app
       )
-      .listen(443, function () {
-        console.log("Server running on port 443");
+      .listen(4000, function () {
+        console.log("Server running on port 4000");
       });
   } catch (error) {
     console.error("No se pudo conectar a la DB:", error);
