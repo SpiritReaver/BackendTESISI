@@ -21,17 +21,7 @@ async function main() {
   try {
     console.log("conexion a DB satisfactoria a DB" + process.env.DB_DATABASE);
     await sequelize.sync({ force: false });
-    https
-      .createServer(
-        {
-          key: fs.readFileSync("key.pem"),
-          cert: fs.readFileSync("cert.pem"),
-        },
-        app
-      )
-      .listen(4000, function () {
-        console.log("Server running on port 4000");
-      });
+    app.listen(4000);
   } catch (error) {
     console.error("No se pudo conectar a la DB:", error);
   }
