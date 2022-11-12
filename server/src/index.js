@@ -12,6 +12,8 @@ import "./models/relacionproductospromedio.models.js";
 import "./models/relaciones.js";
 import "./models/productoscompra.models.js";
 import "./models/productoslista.models.js";
+import https from "https";
+import fs from "fs";
 
 dotenv.config();
 
@@ -19,8 +21,17 @@ async function main() {
   try {
     console.log("conexion a DB satisfactoria a DB" + process.env.DB_DATABASE);
     await sequelize.sync({ force: false });
-    app.listen(4000);
-    console.log("Server on port 4000");
+    https
+      .createServer(
+        {
+          key: fs.readFileSync("key.pem"),
+          cert: fs.readFileSync("cert.pem"),
+        },
+        app
+      )
+      .listen(443, function () {
+        console.log("Server running on port 443");
+      });
   } catch (error) {
     console.error("No se pudo conectar a la DB:", error);
   }
