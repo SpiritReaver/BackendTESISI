@@ -16,11 +16,13 @@ import https from "https";
 import fs from "fs";
 
 dotenv.config();
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 async function main() {
   try {
     console.log("conexion a DB satisfactoria a DB" + process.env.DB_DATABASE);
     await sequelize.sync({ force: false });
+
     https
       .createServer(
         {
@@ -32,6 +34,8 @@ async function main() {
       .listen(4000, () => {
         console.log("servidor HTTPS corriendo en puerto " + 4000);
       });
+    app.listen(4050),
+      () => console.log("servidor HTTP corriendo en puerto " + 4050);
   } catch (error) {
     console.error("No se pudo conectar a la DB:", error);
   }
